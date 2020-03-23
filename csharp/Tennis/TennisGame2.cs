@@ -2,8 +2,8 @@ namespace Tennis
 {
     public class TennisGame2 : ITennisGame
     {
-        private int p1point;
-        private int p2point;
+        private int p1point = 0;
+        private int p2point = 0;
 
         private string p1res = "";
         private string p2res = "";
@@ -13,7 +13,6 @@ namespace Tennis
         public TennisGame2(string player1Name, string player2Name)
         {
             this.player1Name = player1Name;
-            p1point = 0;
             this.player2Name = player2Name;
         }
 
@@ -22,13 +21,7 @@ namespace Tennis
             var score = "";
             if (p1point == p2point && p1point < 3)
             {
-                if (p1point == 0)
-                    score = "Love";
-                if (p1point == 1)
-                    score = "Fifteen";
-                if (p1point == 2)
-                    score = "Thirty";
-                score += "-All";
+                score = SamePointsUnderThree(score);
             }
             if (p1point == p2point && p1point > 2)
                 score = "Deuce";
@@ -101,6 +94,18 @@ namespace Tennis
             {
                 score = "Win for player2";
             }
+            return score;
+        }
+
+        private string SamePointsUnderThree(string score)
+        {
+            if (p1point == 0)
+                score = "Love";
+            if (p1point == 1)
+                score = "Fifteen";
+            if (p1point == 2)
+                score = "Thirty";
+            score += "-All";
             return score;
         }
 
