@@ -19,33 +19,18 @@ namespace Tennis
         public string GetScore()
         {
             var score = "";
+
             CheckEqualPoints(ref score);
+            CheckOnePlayerZeroPoints(ref score);
+            CheckOnePlayerLeadingUnderFourPoints(ref score);
+            CheckAdvantage(ref score);
+            CheckWin(ref score);
+            
+            return score;
+        }
 
-            if (p1point > 0 && p2point == 0)
-            {
-                if (p1point == 1)
-                    p1res = "Fifteen";
-                if (p1point == 2)
-                    p1res = "Thirty";
-                if (p1point == 3)
-                    p1res = "Forty";
-
-                p2res = "Love";
-                score = p1res + "-" + p2res;
-            }
-            if (p2point > 0 && p1point == 0)
-            {
-                if (p2point == 1)
-                    p2res = "Fifteen";
-                if (p2point == 2)
-                    p2res = "Thirty";
-                if (p2point == 3)
-                    p2res = "Forty";
-
-                p1res = "Love";
-                score = p1res + "-" + p2res;
-            }
-
+        private void CheckOnePlayerLeadingUnderFourPoints(ref string score)
+        {
             if (p1point > p2point && p1point < 4)
             {
                 if (p1point == 2)
@@ -70,10 +55,34 @@ namespace Tennis
                     p1res = "Thirty";
                 score = p1res + "-" + p2res;
             }
+        }
 
-            CheckAdvantage(ref score);
-            CheckWin(ref score);
-            return score;
+        private void CheckOnePlayerZeroPoints(ref string score)
+        {
+            if (p1point > 0 && p2point == 0)
+            {
+                if (p1point == 1)
+                    p1res = "Fifteen";
+                if (p1point == 2)
+                    p1res = "Thirty";
+                if (p1point == 3)
+                    p1res = "Forty";
+
+                p2res = "Love";
+                score = p1res + "-" + p2res;
+            }
+            if (p2point > 0 && p1point == 0)
+            {
+                if (p2point == 1)
+                    p2res = "Fifteen";
+                if (p2point == 2)
+                    p2res = "Thirty";
+                if (p2point == 3)
+                    p2res = "Forty";
+
+                p1res = "Love";
+                score = p1res + "-" + p2res;
+            }
         }
 
         private void CheckEqualPoints(ref string score)
