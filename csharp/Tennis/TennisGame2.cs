@@ -19,12 +19,7 @@ namespace Tennis
         public string GetScore()
         {
             var score = "";
-            if (p1point == p2point && p1point < 3)
-            {
-                score = SamePointsUnderThree(score);
-            }
-            if (p1point == p2point && p1point > 2)
-                score = "Deuce";
+            CheckEqualPoints(ref score);
 
             if (p1point > 0 && p2point == 0)
             {
@@ -76,6 +71,41 @@ namespace Tennis
                 score = p1res + "-" + p2res;
             }
 
+            CheckAdvantage(ref score);
+            CheckWin(ref score);
+            return score;
+        }
+
+        private void CheckEqualPoints(ref string score)
+        {
+            if (p1point == p2point && p1point < 3)
+            {
+                if (p1point == 0)
+                    score = "Love";
+                if (p1point == 1)
+                    score = "Fifteen";
+                if (p1point == 2)
+                    score = "Thirty";
+                score += "-All";
+            }
+            if (p1point == p2point && p1point > 2)
+                score = "Deuce";
+        }
+
+        private void CheckWin(ref string score)
+        {
+            if (p1point >= 4 && p2point >= 0 && (p1point - p2point) >= 2)
+            {
+                score = "Win for player1";
+            }
+            if (p2point >= 4 && p1point >= 0 && (p2point - p1point) >= 2)
+            {
+                score = "Win for player2";
+            }
+        }
+
+        private void CheckAdvantage(ref string score)
+        {
             if (p1point > p2point && p2point >= 3)
             {
                 score = "Advantage player1";
@@ -85,29 +115,8 @@ namespace Tennis
             {
                 score = "Advantage player2";
             }
-
-            if (p1point >= 4 && p2point >= 0 && (p1point - p2point) >= 2)
-            {
-                score = "Win for player1";
-            }
-            if (p2point >= 4 && p1point >= 0 && (p2point - p1point) >= 2)
-            {
-                score = "Win for player2";
-            }
-            return score;
         }
 
-        private string SamePointsUnderThree(string score)
-        {
-            if (p1point == 0)
-                score = "Love";
-            if (p1point == 1)
-                score = "Fifteen";
-            if (p1point == 2)
-                score = "Thirty";
-            score += "-All";
-            return score;
-        }
 
         public void SetP1Score(int number)
         {
