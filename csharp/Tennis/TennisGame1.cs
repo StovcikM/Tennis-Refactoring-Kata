@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Tennis
 {
     class TennisGame1 : ITennisGame
@@ -39,57 +41,19 @@ namespace Tennis
 
         private string EqualPoints()
         {
-            string score;
-            switch (m_score1)
-            {
-                case 0:
-                    score = "Love-All";
-                    break;
-                case 1:
-                    score = "Fifteen-All";
-                    break;
-                case 2:
-                    score = "Thirty-All";
-                    break;
-                default:
-                    score = "Deuce";
-                    break;
-            }
-
-            return score;
+            List<string> scores = new List<string>() {"Love-All", "Fifteen-All", "Thirty-All", "Deuce"};
+            return (m_score1 < 4) ? scores[m_score1] : scores[3];
         }
 
         private string LessThenFourPoints()
         {
-            string score = "";
-            int tempScore;
-            for (var i = 1; i < 3; i++)
-            {
-                if (i == 1) tempScore = m_score1;
-                else { score += "-"; tempScore = m_score2; }
-                switch (tempScore)
-                {
-                    case 0:
-                        score += "Love";
-                        break;
-                    case 1:
-                        score += "Fifteen";
-                        break;
-                    case 2:
-                        score += "Thirty";
-                        break;
-                    case 3:
-                        score += "Forty";
-                        break;
-                }
-            }
-
-            return score;
+            List<string> scores = new List<string>() { "Love", "Fifteen", "Thirty", "Forty" };
+            return scores[m_score1] + "-" + scores[m_score2];
         }
 
         private string FourAndMorePoints()
         {
-            string score;
+            string score ;
             var minusResult = m_score1 - m_score2;
             
             if (minusResult == 1) score = "Advantage player1";

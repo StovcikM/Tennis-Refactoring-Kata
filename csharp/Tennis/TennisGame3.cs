@@ -18,9 +18,9 @@ namespace Tennis
             string score;
             if ((player1Score < 4 && player2Score < 4) && (player1Score + player2Score < 6))
             {
-                string[] p = { "Love", "Fifteen", "Thirty", "Forty" };
-                score = p[player1Score];
-                return (player1Score == player2Score) ? score + "-All" : score + "-" + p[player2Score];
+                string[] points = { "Love", "Fifteen", "Thirty", "Forty" };
+                score = points[player1Score];
+                return (player1Score == player2Score) ? score + "-All" : score + "-" + points[player2Score];
             }
             else
             {
