@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Tennis
 {
     public class TennisGame2 : ITennisGame
@@ -5,10 +7,10 @@ namespace Tennis
         private int player1Point = 0;
         private int player2Point = 0;
 
-        private string player1Result = "";
-        private string player2Ressult = "";
         private string player1Name;
         private string player2Name;
+
+        private List<string> scores = new List<string>() { "Love", "Fifteen", "Thirty", "Forty" };
 
         public TennisGame2(string player1Name, string player2Name)
         {
@@ -21,93 +23,37 @@ namespace Tennis
             var score = "";
 
             CheckEqualPoints(ref score);
-            CheckOnePlayerZeroPoints(ref score);
-            CheckOnePlayerLeadingUnderFourPoints(ref score);
+            CheckLeadingUnderFourPoints(ref score);
             CheckAdvantage(ref score);
             CheckWin(ref score);
             
             return score;
         }
 
-        private void CheckOnePlayerLeadingUnderFourPoints(ref string score)
+        private void CheckLeadingUnderFourPoints(ref string score)
         {
-            if (player1Point > player2Point && player1Point < 4)
+            if (player1Point < 4 && player2Point < 4 && player1Point != player2Point)
             {
-                if (player1Point == 2)
-                    player1Result = "Thirty";
-                if (player1Point == 3)
-                    player1Result = "Forty";
-                if (player2Point == 1)
-                    player2Ressult = "Fifteen";
-                if (player2Point == 2)
-                    player2Ressult = "Thirty";
-                score = player1Result + "-" + player2Ressult;
-            }
-            if (player2Point > player1Point && player2Point < 4)
-            {
-                if (player2Point == 2)
-                    player2Ressult = "Thirty";
-                if (player2Point == 3)
-                    player2Ressult = "Forty";
-                if (player1Point == 1)
-                    player1Result = "Fifteen";
-                if (player1Point == 2)
-                    player1Result = "Thirty";
-                score = player1Result + "-" + player2Ressult;
-            }
-        }
-
-        private void CheckOnePlayerZeroPoints(ref string score)
-        {
-            if (player1Point > 0 && player2Point == 0)
-            {
-                if (player1Point == 1)
-                    player1Result = "Fifteen";
-                if (player1Point == 2)
-                    player1Result = "Thirty";
-                if (player1Point == 3)
-                    player1Result = "Forty";
-
-                player2Ressult = "Love";
-                score = player1Result + "-" + player2Ressult;
-            }
-            if (player2Point > 0 && player1Point == 0)
-            {
-                if (player2Point == 1)
-                    player2Ressult = "Fifteen";
-                if (player2Point == 2)
-                    player2Ressult = "Thirty";
-                if (player2Point == 3)
-                    player2Ressult = "Forty";
-
-                player1Result = "Love";
-                score = player1Result + "-" + player2Ressult;
-            }
+                score = scores[player1Point] + "-" + scores[player2Point];
+            }         
         }
 
         private void CheckEqualPoints(ref string score)
         {
-            if (player1Point == player2Point && player1Point < 3)
+            if (player1Point == player2Point)
             {
-                if (player1Point == 0)
-                    score = "Love";
-                if (player1Point == 1)
-                    score = "Fifteen";
-                if (player1Point == 2)
-                    score = "Thirty";
-                score += "-All";
+                score = (player1Point < 3) ? (scores[player1Point] + "-All") : "Deuce";
             }
-            if (player1Point == player2Point && player1Point > 2)
-                score = "Deuce";
+                   
         }
 
         private void CheckWin(ref string score)
-        {
-            if (player1Point >= 4 && player2Point >= 0 && (player1Point - player2Point) >= 2)
+        {  
+            if (player1Point >= 4 && player1Point - 1 > player2Point)
             {
                 score = "Win for player1";
             }
-            if (player2Point >= 4 && player1Point >= 0 && (player2Point - player1Point) >= 2)
+            if (player2Point >= 4 && player2Point - 1 > player1Point)
             {
                 score = "Win for player2";
             }
@@ -115,50 +61,34 @@ namespace Tennis
 
         private void CheckAdvantage(ref string score)
         {
-            if (player1Point > player2Point && player2Point >= 3)
+            if (player2Point >= 3 && player1Point > player2Point)
             {
                 score = "Advantage player1";
             }
 
-            if (player2Point > player1Point && player1Point >= 3)
+            if (player1Point >= 3 && player2Point > player1Point)
             {
                 score = "Advantage player2";
             }
         }
 
 
-        public void SetP1Score(int number)
+        public void SetP1Score(int number = 1)
         {
-            for (int i = 0; i < number; i++)
-            {
-                P1Score();
-            }
+            player1Point += number;
         }
 
-        public void SetP2Score(int number)
+        public void SetP2Score(int number = 1)
         {
-            for (var i = 0; i < number; i++)
-            {
-                P2Score();
-            }
-        }
-
-        private void P1Score()
-        {
-            player1Point++;
-        }
-
-        private void P2Score()
-        {
-            player2Point++;
+            player2Point += number;
         }
 
         public void WonPoint(string player)
         {
             if (player == "player1")
-                P1Score();
+                SetP1Score();
             else
-                P2Score();
+                SetP2Score();
         }
 
     }

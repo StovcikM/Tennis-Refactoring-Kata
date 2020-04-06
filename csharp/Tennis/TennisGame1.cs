@@ -6,8 +6,11 @@ namespace Tennis
     {
         private int m_score1 = 0;
         private int m_score2 = 0;
+        
         private string player1Name;
         private string player2Name;
+
+        private List<string> scores = new List<string>() { "Love", "Fifteen", "Thirty", "Forty" };
 
         public TennisGame1(string player1Name, string player2Name)
         {
@@ -22,43 +25,35 @@ namespace Tennis
  
         public string GetScore()
         {
-            string score;
-
             if (m_score1 == m_score2)
             {
-                score = EqualPoints();
+                return EqualPoints();
             }
-            else if (m_score1 >= 4 || m_score2 >= 4)
+            if (m_score1 >= 4 || m_score2 >= 4)
             {
-                score = FourAndMorePoints();
-            }
-            else
-            {
-                score = LessThenFourPoints();
-            }
-            return score;
+                return FourAndMorePoints();
+            }        
+            return LessThenFourPoints();                     
         }
 
         private string EqualPoints()
         {
-            List<string> scores = new List<string>() {"Love-All", "Fifteen-All", "Thirty-All", "Deuce"};
-            return (m_score1 < 4) ? scores[m_score1] : scores[3];
+            return (m_score1 < 3) ? (scores[m_score1] + "-All") : "Deuce";
         }
 
         private string LessThenFourPoints()
         {
-            List<string> scores = new List<string>() { "Love", "Fifteen", "Thirty", "Forty" };
             return scores[m_score1] + "-" + scores[m_score2];
         }
 
         private string FourAndMorePoints()
         {
             string score ;
-            var minusResult = m_score1 - m_score2;
+            var scoreDifference = m_score1 - m_score2;
             
-            if (minusResult == 1) score = "Advantage player1";
-            else if (minusResult == -1) score = "Advantage player2";
-            else if (minusResult >= 2) score = "Win for player1";
+            if (scoreDifference == 1) score = "Advantage player1";
+            else if (scoreDifference == -1) score = "Advantage player2";
+            else if (scoreDifference >= 2) score = "Win for player1";
             else score = "Win for player2";
 
             return score;
