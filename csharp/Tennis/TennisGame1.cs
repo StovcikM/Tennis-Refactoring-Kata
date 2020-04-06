@@ -1,11 +1,12 @@
+using System;
 using System.Collections.Generic;
 
 namespace Tennis
 {
     class TennisGame1 : ITennisGame
     {
-        private int m_score1 = 0;
-        private int m_score2 = 0;
+        private int player1Points = 0;
+        private int player2Points = 0;
         
         private string player1Name;
         private string player2Name;
@@ -20,43 +21,32 @@ namespace Tennis
 
         public void WonPoint(string playerName)
         {
-            _ = (playerName == "player1") ? m_score1 += 1 : m_score2 += 1;
+            _ = (playerName == "player1") ? player1Points += 1 : player2Points += 1;
         }
  
         public string GetScore()
         {
-            if (m_score1 == m_score2)
+            if (player1Points == player2Points)
             {
-                return EqualPoints();
+                return (player1Points < 3) ? (scores[player1Points] + "-All") : "Deuce";
             }
-            if (m_score1 >= 4 || m_score2 >= 4)
+            if (player1Points >= 4 || player2Points >= 4)
             {
                 return FourAndMorePoints();
             }        
-            return LessThenFourPoints();                     
-        }
-
-        private string EqualPoints()
-        {
-            return (m_score1 < 3) ? (scores[m_score1] + "-All") : "Deuce";
-        }
-
-        private string LessThenFourPoints()
-        {
-            return scores[m_score1] + "-" + scores[m_score2];
+            return scores[player1Points] + "-" + scores[player2Points];
         }
 
         private string FourAndMorePoints()
-        {
-            string score ;
-            var scoreDifference = m_score1 - m_score2;
-            
-            if (scoreDifference == 1) score = "Advantage player1";
-            else if (scoreDifference == -1) score = "Advantage player2";
-            else if (scoreDifference >= 2) score = "Win for player1";
-            else score = "Win for player2";
+        {            
+            string leadingPlayer = (player1Points > player2Points) ? "player1" : "player2";
+            int scoreDifference = Math.Abs(player1Points - player2Points);
 
-            return score;
+            if (scoreDifference == 1)
+            {
+                return "Advantage " + leadingPlayer;
+            }
+            return "Win for " + leadingPlayer;
         }
     }
 }

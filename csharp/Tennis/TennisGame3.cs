@@ -1,9 +1,11 @@
+using System;
+
 namespace Tennis
 {
     public class TennisGame3 : ITennisGame
     {
-        private int player2Score;
-        private int player1Score;
+        private int player2Points;
+        private int player1Points;
         private string player1Name;
         private string player2Name;
 
@@ -15,28 +17,28 @@ namespace Tennis
 
         public string GetScore()
         {
-            string score;
-            if ((player1Score < 4 && player2Score < 4) && (player1Score + player2Score < 6))
+            string[] points = { "Love", "Fifteen", "Thirty", "Forty" };
+            if (player1Points == player2Points)
             {
-                string[] points = { "Love", "Fifteen", "Thirty", "Forty" };
-                score = points[player1Score];
-                return (player1Score == player2Score) ? score + "-All" : score + "-" + points[player2Score];
+                return (player1Points < 3) ? (points[player1Points] + "-All") : "Deuce";
             }
-            else
-            {
-                if (player1Score == player2Score)
-                    return "Deuce";
-                score = player1Score > player2Score ? player1Name : player2Name;
-                return ((player1Score - player2Score) * (player1Score - player2Score) == 1) ? "Advantage " + score : "Win for " + score;
+            if (player1Points < 4 && player2Points < 4)
+            {                
+                return points[player1Points] + "-" + points[player2Points];
             }
+            
+            string leadingPlayer = player1Points > player2Points ? player1Name : player2Name;
+            int scoreDifference = Math.Abs(player1Points - player2Points);
+
+            return (scoreDifference == 1) ? "Advantage " + leadingPlayer : "Win for " + leadingPlayer;            
         }
 
         public void WonPoint(string playerName)
         {
             if (playerName == "player1")
-                this.player1Score += 1;
+                this.player1Points++;
             else
-                this.player2Score += 1;
+                this.player2Points++;
         }
 
     }
