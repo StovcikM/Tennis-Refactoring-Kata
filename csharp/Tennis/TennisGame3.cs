@@ -36,9 +36,13 @@ namespace Tennis
         public void WonPoint(string playerName)
         {
             if (playerName == "player1")
-                this.player1Points++;
+            {
+                player1Points++;
+            }
             else
-                this.player2Points++;
+            { 
+                player2Points++;
+            }
         }
 
     }

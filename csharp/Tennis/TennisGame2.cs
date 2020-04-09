@@ -75,11 +75,19 @@ namespace Tennis
 
         public void SetP1Score(int number = 1)
         {
+            if (number < 0) 
+            {
+                return; 
+            }
             player1Points += number;
         }
 
         public void SetP2Score(int number = 1)
         {
+            if (number < 0)
+            {
+                return;
+            }
             player2Points += number;
         }
 
